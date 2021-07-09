@@ -1,12 +1,21 @@
 import cv2
 
+def get_FD_CV(x, y, im):
+
+    Cb = round(im[ y , x , 1 ])
+    Cr = round(im[ y , x , 2 ])
+    
+    FD_CV = (19.75 * Cb - 4.46 * Cr) / 255 - 8.18 # TODO: Confirmar
+
+    return FD_CV
+
 def get_FD_YCV(x, y, imgYCC):
 
-    Y = imgYCC[x, y, 0]
-    Cr = imgYCC[x, y, 1]
-    Cb = imgYCC[x, y, 2]  
+    Y = imgYCC[y, x, 0]
+    Cr = imgYCC[y, x, 1]
+    Cb = imgYCC[y, x, 2]  
 
-    return 8.60*Y + 25.5*Cb - 5.1*Cr - 15.45  
+    return (8.60*Y + 25.50*Cb - 5.01*Cr)/255 - 15.45  
 
 def getPatchTexture(img, x, y, patch_size):
     return 0

@@ -4,11 +4,11 @@ import cv2
 
 
 
-	# In the blackfin, values range from [0, 255] while the formula is based on 
-	# values in the range [0,1]. Therefore we divide by 255 after the channels.
-	# This leaves the factor 100 with which all coefficients were multiplied.
+# In the blackfin, values range from [0, 255] while the formula is based on 
+# values in the range [0,1]. Therefore we divide by 255 after the channels.
+# This leaves the factor 100 with which all coefficients were multiplied.
 
-def get_FD_CV(im, x, y):
+def get_FD_CV(x, y, im):
 
     Cb = round(im[ y , x , 1 ])
     Cr = round(im[ y , x , 2 ])
