@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import os
+import texture
 
 #gtruth_path = '../GroundTruth/LabelME/Images'
 gtruth_path = '../holidays_selection'
@@ -44,7 +45,7 @@ def segment_no_yco():
                     if FD_YCV <= -0.769074:
                         groundPixel(x, y)
                     else:
-                        patch_texture = features.getPatchTexture(img, x, y, patch_size)
+                        patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                         if patch_texture <= 0.006609:
                             Cr = imgYCC[y, x, 1]/255
                             if Cr > 0.493324:
@@ -52,18 +53,18 @@ def segment_no_yco():
                         else:
                             groundPixel(x, y)
                 else:
-                    patch_texture = features.getPatchTexture(img, x, y, patch_size)
+                    patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                     if patch_texture > 0.01739:
                         groundPixel(x, y)
             else:
-                patch_texture = features.getPatchTexture(img, x, y, patch_size)
+                patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                 if patch_texture <= 0.017807:
                     FD_YCV = features.get_FD_YCV(x, y, imgYCC)
                     if FD_YCV <= -0.507478:
                         groundPixel(x, y)
                 else:
                     if FD_YCV <= 2.120051:
-                        patch_texture = features.getPatchTexture(img, x, y, patch_size)
+                        patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                         if patch_texture <= 0.04282:
                             FD_YCV = features.get_FD_YCV(x, y, imgYCC)
                             if FD_YCV <= -0.193133:
@@ -101,9 +102,9 @@ if __name__ == "__main__":
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
-        '''plt.imshow(img)
+        plt.imshow(img)
         plt.show()
         plt.imshow(img_out)
-        plt.show()'''
+        plt.show()
 
         cv2.imwrite("../segmented/segmented_"+filename, img_out)

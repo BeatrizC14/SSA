@@ -6,17 +6,18 @@ def getPatchTexture(im, x, y, patch_size):
     half_patch_size = patch_size // 2
     texture = 0
 
-    imgWidth = len(im[0])
+    imgWidth = im.shape[1]
+    imgHeight = im.shape[0]
 
-    x = half_patch_size if (x < half_patch_size) else x
-    x = imgWidth - half_patch_size - 1 if (x >= imgWidth - half_patch_size) else x
-    y = half_patch_size if (y < half_patch_size) else y
-    y = imgWidth - half_patch_size - 1 if (y >= imgWidth - half_patch_size) else y
+    if (x < half_patch_size): x = half_patch_size
+    if (x >= imgWidth - half_patch_size): x = imgWidth - half_patch_size - 1  
+    if (y < half_patch_size): y = half_patch_size  
+    if (y >= imgHeight - half_patch_size): y = imgHeight - half_patch_size - 1 
 
-    ix = im.shape[1]//2
-    iy = im.shape[0]//2
+    '''ix = im.shape[1]//2
+    iy = im.shape[0]//2'''
 
-    center_pixel = im[iy, ix, 0]
+    center_pixel = im[y, x, 0]
 
     dx = -half_patch_size
     while dx <= half_patch_size:
@@ -53,7 +54,7 @@ def show(im):
     plt.show()
 
 
-imbgr = cv.imread('imag.jpg')
+'''imbgr = cv.imread('imag.jpg')
 imrgb = cv.cvtColor(imbgr, cv.COLOR_BGR2RGB)
 
 im_ycrcb = cv.cvtColor(imrgb, cv.COLOR_BGR2YCrCb)
@@ -61,3 +62,11 @@ im_ycrcb = cv.cvtColor(imrgb, cv.COLOR_BGR2YCrCb)
 im_rgb = cv.cvtColor(im_ycrcb, cv.COLOR_YCrCb2BGR)
 
 print(getPatchTexture(im_ycrcb, 5, 5, 10))
+
+# test getPatchTexture
+path = '../imag.jpg'
+im = cv.imread(path)
+patch_size = 10
+for y in range(im.shape[0]):
+    for x in range(im.shape[1]):
+        getPatchTexture(im, x, y, patch_size)'''
