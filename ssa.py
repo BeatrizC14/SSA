@@ -28,7 +28,7 @@ def getMaximumY(img):
 
 def segment_no_yco():
 
-    imgYCC = cv2.cvtColor(img, cv2.COLOR_RGB2YCR_CB)
+    imgYCC = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
     height = img.shape[0]
     width = img.shape[1]
     patch_size = 10

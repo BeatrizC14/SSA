@@ -23,7 +23,7 @@ def getPatchTexture(img, x, y, patch_size):
 if __name__ == "__main__":
 
     img = cv2.imread('../imag.jpg')
-    imgYCC = cv2.cvtColor(img, cv2.COLOR_RGB2YCR_CB)
+    imgYCC = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
     
     FD_YCC = get_FD_YCV(0, 0, imgYCC)
     print(FD_YCC)
