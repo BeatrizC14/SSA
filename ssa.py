@@ -59,15 +59,15 @@ def segment_no_yco():
             else:
                 patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                 if patch_texture <= 0.017807:
-                    FD_YCV = features.get_FD_YCV(x, y, imgYCC)
-                    if FD_YCV <= -0.507478:
+                    FD_CV = features.get_FD_CV(x, y, imgYCC)
+                    if FD_CV <= -0.507478:
                         groundPixel(x, y)
                 else:
                     if FD_YCV <= 2.120051:
                         patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                         if patch_texture <= 0.04282:
-                            FD_YCV = features.get_FD_YCV(x, y, imgYCC)
-                            if FD_YCV <= -0.193133:
+                            FD_CV = features.get_FD_CV(x, y, imgYCC)
+                            if FD_CV <= -0.193133:
                                 groundPixel(x, y)
                             else:
                                 Y = imgYCC[x, y, 0] #TODO: confirmar isto!
