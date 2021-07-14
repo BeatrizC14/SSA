@@ -1,7 +1,6 @@
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
-import texture
 
 def groundPixel(x, y):
 
@@ -24,7 +23,7 @@ def segment_hsv(hsv_img):
                         if hsv_img[y, x, 1] <= 0.407258:
                             groundPixel(x, y)
                         else:
-                            if hsv_img[y, x, 1] >= 0.601266:
+                            if hsv_img[y, x, 1] <= 0.601266:
                                 groundPixel(x, y)
             else:
                 if hsv_img[y, x, 0] <= 0.409091:
@@ -48,14 +47,13 @@ if __name__ == "__main__":
     
     height = hsv_img.shape[0]
     width = hsv_img.shape[1]
-    img_out = np.full(hsv_img.shape, 255)
+    img_out = np.full(img.shape, 255)
 
     for y in range(height):
         for x in range(width):
             hsv_img[y, x, 0] = hsv_img[y, x, 0]/360
             hsv_img[y, x, 1] = hsv_img[y, x, 1]/100
             hsv_img[y, x, 2] = hsv_img[y, x, 2]/100
-
 
     segment_hsv(hsv_img)
 
