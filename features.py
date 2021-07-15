@@ -2,10 +2,10 @@ import cv2
 
 def get_FD_CV(x, y, im):
 
-    Cb = round(im[ y , x , 1 ])
-    Cr = round(im[ y , x , 2 ])
+    Cr = round(im[ y , x , 1 ])
+    Cb = round(im[ y , x , 2 ])
     
-    FD_CV = (19.75 * Cb - 4.46 * Cr) / 255 - 8.18 # TODO: Confirmar
+    FD_CV = ((19.75 * Cb - 4.46 * Cr) / 255 - 8.18)*100 # TODO: Confirmar
 
     return FD_CV
 
@@ -15,7 +15,7 @@ def get_FD_YCV(x, y, imgYCC):
     Cr = imgYCC[y, x, 1]
     Cb = imgYCC[y, x, 2]  
 
-    return (8.60*Y + 25.50*Cb - 5.01*Cr)/255 - 15.45  
+    return ((8.60*Y + 25.50*Cb - 5.01*Cr)/255 - 15.45)*100  
 
 if __name__ == "__main__":
 

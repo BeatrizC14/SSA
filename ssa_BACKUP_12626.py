@@ -103,6 +103,9 @@ if __name__ == "__main__":
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
+<<<<<<< HEAD
+        '''plt.imshow(img)
+=======
 #         para ver imagens lado a lado
 #         img_out = np.uint8(img_out)
 
@@ -112,9 +115,15 @@ if __name__ == "__main__":
 #         cv2.waitKey(0)
 #         cv2.destroyAllWindows()
 
-        '''plt.imshow(img)
+        
+        plt.imshow(img)
+>>>>>>> 92f4b7336f9a57f8e864d3f62332a0ec0265d900
         plt.show()
         plt.imshow(img_out)
         plt.show()'''
 
+<<<<<<< HEAD
         cv2.imwrite(dst_path+filename, img_out)
+=======
+        cv2.imwrite("../segmented/segmented_"+filename, img_out)
+>>>>>>> 92f4b7336f9a57f8e864d3f62332a0ec0265d900

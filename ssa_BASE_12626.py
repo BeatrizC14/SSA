@@ -5,10 +5,8 @@ import matplotlib.pyplot as plt
 import os
 import texture
 
-#dataset_path = '../GroundTruth/LabelME/Images'
-#dst_path = '../segmented/segmented_'
-dataset_path = '../holidays_selection'
-dst_path = '../segmented_holidays/segmented_'
+#gtruth_path = '../GroundTruth/LabelME/Images'
+gtruth_path = '../holidays_selection'
 
 def groundPixel(x, y):
 
@@ -61,14 +59,15 @@ def segment_no_yco():
             else:
                 patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                 if patch_texture <= 0.017807:
-                    FD_CV = features.get_FD_CV(x, y, imgYCC)
-                    if FD_CV <= -0.507478:
+                    FD_YCV = features.get_FD_YCV(x, y, imgYCC)
+                    if FD_YCV <= -0.507478:
                         groundPixel(x, y)
                 else:
                     if FD_YCV <= 2.120051:
+                        patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                         if patch_texture <= 0.04282:
-                            FD_CV = features.get_FD_CV(x, y, imgYCC)
-                            if FD_CV <= -0.193133:
+                            FD_YCV = features.get_FD_YCV(x, y, imgYCC)
+                            if FD_YCV <= -0.193133:
                                 groundPixel(x, y)
                             else:
                                 Y = imgYCC[x, y, 0] #TODO: confirmar isto!
@@ -83,8 +82,8 @@ def segment_no_yco():
 if __name__ == "__main__":
 
     # Test LabelME dataset
-    '''for folder in os.listdir(dataset_path):
-        path = os.path.join(dataset_path,folder)
+    '''for folder in os.listdir(gtruth_path):
+        path = os.path.join(gtruth_path,folder)
         for filename in os.listdir(path):
             img = cv2.imread(os.path.join(path, filename))
             img_out = np.full(img.shape, 255)
@@ -95,26 +94,17 @@ if __name__ == "__main__":
             plt.imshow(img_out)
             plt.show()
 
-            cv2.imwrite(dst_path+filename, img_out)'''
+            cv2.imwrite("../segmented/segmented_"+filename, img_out)'''
 
     # Test holidays dataset
-    for filename in os.listdir(dataset_path):
-        img = cv2.imread(os.path.join(dataset_path, filename))
+    for filename in os.listdir(gtruth_path)[4:]:
+        img = cv2.imread(os.path.join(gtruth_path, filename))
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
-#         para ver imagens lado a lado
-#         img_out = np.uint8(img_out)
-
-#         Hori = np.concatenate((img, img_out), axis=1)
-
-#         cv2.imshow("sas",Hori)
-#         cv2.waitKey(0)
-#         cv2.destroyAllWindows()
-
-        '''plt.imshow(img)
+        plt.imshow(img)
         plt.show()
         plt.imshow(img_out)
-        plt.show()'''
+        plt.show()
 
-        cv2.imwrite(dst_path+filename, img_out)
+        cv2.imwrite("../segmented/segmented_"+filename, img_out)

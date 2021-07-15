@@ -61,14 +61,15 @@ def segment_no_yco():
             else:
                 patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                 if patch_texture <= 0.017807:
-                    FD_CV = features.get_FD_CV(x, y, imgYCC)
-                    if FD_CV <= -0.507478:
+                    FD_YCV = features.get_FD_YCV(x, y, imgYCC)
+                    if FD_YCV <= -0.507478:
                         groundPixel(x, y)
                 else:
                     if FD_YCV <= 2.120051:
+                        patch_texture = texture.getPatchTexture(img, x, y, patch_size)
                         if patch_texture <= 0.04282:
-                            FD_CV = features.get_FD_CV(x, y, imgYCC)
-                            if FD_CV <= -0.193133:
+                            FD_YCV = features.get_FD_YCV(x, y, imgYCC)
+                            if FD_YCV <= -0.193133:
                                 groundPixel(x, y)
                             else:
                                 Y = imgYCC[x, y, 0] #TODO: confirmar isto!
@@ -103,15 +104,6 @@ if __name__ == "__main__":
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
-#         para ver imagens lado a lado
-#         img_out = np.uint8(img_out)
-
-#         Hori = np.concatenate((img, img_out), axis=1)
-
-#         cv2.imshow("sas",Hori)
-#         cv2.waitKey(0)
-#         cv2.destroyAllWindows()
-
         '''plt.imshow(img)
         plt.show()
         plt.imshow(img_out)

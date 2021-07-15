@@ -17,7 +17,7 @@ def getPatchTexture(im, x, y, patch_size):
     '''ix = im.shape[1]//2
     iy = im.shape[0]//2'''
 
-    center_pixel = im[y, x, 0]
+    center_pixel = im[y, x, 0]/2
 
     dx = -half_patch_size
     while dx <= half_patch_size:
@@ -26,7 +26,7 @@ def getPatchTexture(im, x, y, patch_size):
             if not(dx == 0 and dy == 0):
                 indx = x + dx
                 indy = y + dy
-                value = im[indy, indx, 0]
+                value = im[indy, indx, 0]/2
                 texture += abs( int(value) - int(center_pixel) )
             dy += 1
         dx += 1
