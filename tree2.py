@@ -18,7 +18,7 @@ def segment_hsv(hsv_img):
     for y in range(height):
         for x in range(width):
             if hsv_img[y, x, 2]/255 <= 0.635294:
-                if hsv_img[y, x, 0]/180 <= 0.542517:
+                if hsv_img[y, x, 0]/179 <= 0.542517:
                     groundPixel(x, y)
                 else: 
                     if hsv_img[y, x, 2]/255 <= 0.458824:
@@ -30,7 +30,7 @@ def segment_hsv(hsv_img):
                             if hsv_img[y, x, 1]/255 <= 0.601266:
                                 groundPixel(x, y)
             else:
-                if hsv_img[y, x, 0]/180 <= 0.409091:
+                if hsv_img[y, x, 0]/179 <= 0.409091:
                     if hsv_img[y, x, 1]/255 > 0.004032:
                         groundPixel(x, y)
                 else: 
