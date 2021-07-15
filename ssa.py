@@ -101,6 +101,16 @@ if __name__ == "__main__":
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
+#         para ver imagens lado a lado
+#         img_out = np.uint8(img_out)
+
+#         Hori = np.concatenate((img, img_out), axis=1)
+
+#         cv2.imshow("sas",Hori)
+#         cv2.waitKey(0)
+#         cv2.destroyAllWindows()
+
+        
         plt.imshow(img)
         plt.show()
         plt.imshow(img_out)
