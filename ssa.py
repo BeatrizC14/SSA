@@ -71,7 +71,7 @@ def segment_no_yco():
                             if FD_CV <= -0.193133:
                                 groundPixel(x, y)
                             else:
-                                Y = imgYCC[x, y, 0] #TODO: confirmar isto!
+                                Y = imgYCC[y, x, 0] #TODO: confirmar isto!
                                 if Y/maxY <= 0.66109:
                                     groundPixel(x, y)
                                     relative_y+=1
