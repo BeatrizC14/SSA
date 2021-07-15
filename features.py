@@ -17,9 +17,6 @@ def get_FD_YCV(x, y, imgYCC):
 
     return (8.60*Y + 25.50*Cb - 5.01*Cr)/255 - 15.45  
 
-def getPatchTexture(img, x, y, patch_size):
-    return 0
-
 if __name__ == "__main__":
 
     img = cv2.imread('../imag.jpg')
