@@ -62,7 +62,7 @@ def get_FD_RGB(x, y, imgRGB):
     
     return ((-3.77*R - 1.25*G + 12.40*B)/255 - 4.62)
 
-def get_FD_RGB(x, y, imgHSV):
+def get_FD_HSV(x, y, imgHSV):
     
     H = imgHSV[y, x, 0]
     S = imgHSV[y, x, 1]
