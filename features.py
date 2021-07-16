@@ -69,3 +69,6 @@ def get_FD_RGB(x, y, imgHSV):
     
     return (3.35*H/179 + 2.55*S/255 + 8.58*V/255 - 7.51)
 
+def get_yco(y, img):
+    return (y/img.shape[0])
+
