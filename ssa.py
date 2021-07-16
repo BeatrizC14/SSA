@@ -4,11 +4,11 @@ import cv2
 import matplotlib.pyplot as plt
 import os
 import texture
+import config 
+from time import time
 
-#dataset_path = '../GroundTruth/LabelME/Images'
-#dst_path = '../segmented/segmented_'
-dataset_path = '../holidays_selection'
-dst_path = '../segmented_holidays/segmented_'
+dataset_path = config.dataset_path
+dst_path = config.dst_path
 
 def groundPixel(x, y):
 
@@ -78,6 +78,7 @@ def segment_no_yco():
                  
 if __name__ == "__main__":
 
+    start_time = time()
     # Test LabelME dataset
     '''for folder in os.listdir(dataset_path):
         path = os.path.join(dataset_path,folder)
@@ -95,7 +96,9 @@ if __name__ == "__main__":
 
     # Test holidays dataset
     for filename in os.listdir(dataset_path):
-        img = cv2.imread(os.path.join(dataset_path, filename))
+        original_img = cv2.imread(os.path.join(dataset_path, filename))
+        img = cv2.resize(original_img, (640, 480))
+        img_out = np.full(img.shape, 255)
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         
@@ -108,9 +111,6 @@ if __name__ == "__main__":
 #         cv2.waitKey(0)
 #         cv2.destroyAllWindows()
 
-        '''plt.imshow(img)
-        plt.show()
-        plt.imshow(img_out)
-        plt.show()'''
+#        cv2.imwrite(dst_path+filename, img_out)
 
-        cv2.imwrite(dst_path+filename, img_out)
+    print("------ %s seconds ------" % (time() - start_time))

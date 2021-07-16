@@ -54,16 +54,17 @@ def getPatchTexture(im, x, y, patch_size):
     return texture
 
 
-def get_FD_RGB(x, y, imgRGB):
+def get_FD_RGB(x, y, imgBGR):
 
-    R = imgRGB[y, x, 0]
-    G = imgRGB[y, x, 1]
-    B = imgRGB[y, x, 2]
+    B = imgBGR[y, x, 0]
+    G = imgBGR[y, x, 1]
+    R = imgBGR[y, x, 2]
     
     return ((-3.77*R - 1.25*G + 12.40*B)/255 - 4.62)
 
-def get_FD_RGB(x, y, imgHSV):
-    
+def get_FD_HSV(x, y, imgBGR):
+
+    imgHSV = cv2.cvtColor(imgBGR, cv.COLOR_BGR2HSV)
     H = imgHSV[y, x, 0]
     S = imgHSV[y, x, 1]
     V = imgHSV[y, x, 2]

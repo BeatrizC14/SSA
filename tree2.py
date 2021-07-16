@@ -2,9 +2,10 @@ import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
 import os
+import config
 
-dataset_path = '../holidays_selection'
-dst_path = '../segmented2_holidays/segmented_'
+dataset_path = config.dataset_path
+dst_path = config.dst_path
 
 def groundPixel(x, y):
 
@@ -72,9 +73,4 @@ if __name__ == "__main__":
 
         segment_hsv(hsv_img)
         
-        '''plt.imshow(img)
-        plt.show()
-        plt.imshow(img_out)
-        plt.show()'''
-
         cv.imwrite(dst_path+filename, img_out)
