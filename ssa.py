@@ -34,9 +34,8 @@ def segment_no_yco():
     height = img.shape[0]
     width = img.shape[1]
     patch_size = 10
-    maxY = getMaximumY(img) #TODO: confirmar isto!
+    maxY = getMaximumY(img)
 
-    relative_y = 0
     for y in range(height):
         for x in range(width):
 
@@ -71,14 +70,11 @@ def segment_no_yco():
                             if FD_CV <= -0.193133:
                                 groundPixel(x, y)
                             else:
-                                Y = imgYCC[x, y, 0] #TODO: confirmar isto!
+                                Y = imgYCC[x, y, 0]
                                 if Y/maxY <= 0.66109:
                                     groundPixel(x, y)
-                                    relative_y+=1
                         else:
                             groundPixel(x, y)
-    
-    print(relative_y)
                  
 if __name__ == "__main__":
 
