@@ -151,6 +151,38 @@ def get_uniformity(x, y, im, patch_size):
     u = np.sum(p**2)
 
     return u
+
+def get_gradient(img, x, y):
+
+    if (x >= 0  and  x < img.shape[1]  and  y >= 0  and  y < img.shape[0]):
+        
+        if x > 0:
+            Y1 = img[ y, x-1, 0]/2;
+        else:
+            Y1 = img[ y, 0, 0]/2;
+
+        if x < (img.shape[1] - 1):
+            Y2 = img[ y, x+1, 0]/2;
+        else:
+            Y2 = img[ y, img.shape[1]-1, 0]/2;
+        
+        dx = abs(round(Y2) - round(Y1));
+
+        if y > 0:
+            Y1 = img[ y-1, x, 0]/2;
+        else:
+            Y1 = img[ 0, x, 0]/2;
+        
+        if y < (img.shape[0] -1):
+            Y2 = img[ y+1, x, 0]/2;
+        else:
+            Y2 = img[ img.shape[0] -1, x, 0]/2;
+        
+        dy = abs(round(Y2) - round(Y1));
+
+    grad = dx + dy;
+
+    return grad;
                 
 
 if __name__ == "__main__":
