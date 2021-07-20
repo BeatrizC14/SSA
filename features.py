@@ -1,6 +1,9 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import math
+
+from numpy.core.fromnumeric import mean
 
 def get_FD_CV(x, y, im):
 
@@ -21,6 +24,7 @@ def get_FD_YCV(x, y, imgYCC):
 
 def getPatchTexture(im, x, y, patch_size):
     
+    imgYCC = cv2.cvtColor(im, cv2.COLOR_BGR2YCR_CB)
     half_patch_size = patch_size // 2
     texture = 0
 
@@ -35,7 +39,7 @@ def getPatchTexture(im, x, y, patch_size):
     '''ix = im.shape[1]//2
     iy = im.shape[0]//2'''
 
-    center_pixel = im[y, x, 0]/2
+    center_pixel = imgYCC[y, x, 0]/2
 
     dx = -half_patch_size
     while dx <= half_patch_size:
@@ -44,7 +48,7 @@ def getPatchTexture(im, x, y, patch_size):
             if not(dx == 0 and dy == 0):
                 indx = x + dx
                 indy = y + dy
-                value = im[indy, indx, 0]/2
+                value = imgYCC[indy, indx, 0]/2
                 texture += abs( int(value) - int(center_pixel) )
             dy += 1
         dx += 1
@@ -64,15 +68,63 @@ def get_FD_RGB(x, y, imgBGR):
 
 def get_FD_HSV(x, y, imgBGR):
 
-    imgHSV = cv2.cvtColor(imgBGR, cv.COLOR_BGR2HSV)
+    imgHSV = cv2.cvtColor(imgBGR, cv2.COLOR_BGR2HSV)
     H = imgHSV[y, x, 0]
     S = imgHSV[y, x, 1]
     V = imgHSV[y, x, 2]
     
     return (3.35*H/179 + 2.55*S/255 + 8.58*V/255 - 7.51)
 
+
 def get_yco(y, img):
     return (y/img.shape[0])
+
+
+def patch_mean(im, x, y, patch_size):
+
+    imgYCC = cv2.cvtColor(im, cv2.COLOR_BGR2YCR_CB)
+    half_patch_size = patch_size // 2
+    imgWidth = im.shape[1]
+    imgHeight = im.shape[0]
+
+    mean = 0
+
+    if (x < half_patch_size): x = half_patch_size
+    if (x >= imgWidth - half_patch_size): x = imgWidth - half_patch_size - 1  
+    if (y < half_patch_size): y = half_patch_size  
+    if (y >= imgHeight - half_patch_size): y = imgHeight - half_patch_size - 1 
+
+    dx = -half_patch_size
+    while dx <= half_patch_size:
+        dy = -half_patch_size
+        while dy <= half_patch_size:
+            indx = x + dx
+            indy = y + dy
+            value = imgYCC[indy, indx, 0]/2
+            mean += int(value); 
+            dy += 1
+        dx += 1
+    
+    mean /= (patch_size * patch_size)
+
+    return mean
+
+
+def get_PSD(width, height, img):
+    L=0
+    sum=0
+    
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    m = mean(img.shape[1], img.shape[0], gray)
+
+    for y in range(0, height):
+        for x in range(0, width):
+            sum += (gray[y,x]-m)**2
+            L+=1
+    
+    s = math.sqrt(sum/L)
+
+    return s
 
 
 def get_uniformity(x, y, im, patch_size):
@@ -103,7 +155,8 @@ def get_uniformity(x, y, im, patch_size):
 
 if __name__ == "__main__":
 
-    img = cv2.imread('../imag.jpg')
+    #img = cv2.imread('../imag.jpg')
+    img = cv2.imread('imag.jpg')
     imgYCC = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
     height = imgYCC.shape[0]
     width = imgYCC.shape[1]
@@ -114,6 +167,8 @@ if __name__ == "__main__":
 
     for y in range(0, height):
         for x in range(0, width):
-            get_uniformity(x, y, imgYCC, patch_size)
+            m=getPatchTexture(img, x, y, 10)
+            print(m)
+    
     
 
