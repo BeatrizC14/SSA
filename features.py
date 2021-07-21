@@ -142,7 +142,7 @@ def get_PSD(width, height, img):
     sum=0
     
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    m = patch_mean(img.shape[1], img.shape[0], gray)
+    m = mean(img.shape[1], img.shape[0], gray)
 
     for y in range(0, height):
         for x in range(0, width):
