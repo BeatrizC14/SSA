@@ -5,10 +5,24 @@ import math
 
 from numpy.core.fromnumeric import mean
 
+
+
+def getMaximumY(img):
+    
+    max_y = 0
+
+    for x in range(img.shape[1]):
+        for y in range(img.shape[0]):
+
+            Y = img[y, x, 0]
+            if Y > max_y: max_y = Y 
+
+    return max_y
+
 def get_FD_CV(x, y, im):
 
-    Cb = round(im[ y , x , 2 ])
-    Cr = round(im[ y , x , 1 ])
+    Cb = im[ y , x , 2 ]
+    Cr = im[ y , x , 1 ]
     
     FD_CV = (19.75 * Cb - 4.46 * Cr) / 255 - 8.18 # TODO: Confirmar
 
@@ -21,6 +35,41 @@ def get_FD_YCV(x, y, imgYCC):
     Cr = imgYCC[y, x, 1]
      
     return (8.60*Y + 25.50*Cb - 5.01*Cr)/255 - 15.45 
+
+
+def get_FD_RGB(x, y, imgBGR):
+
+    B = imgBGR[y, x, 0]
+    G = imgBGR[y, x, 1]
+    R = imgBGR[y, x, 2]
+    
+    return ((-3.77*R - 1.25*G + 12.40*B)/255 - 4.62)
+
+def get_FD_HSV(x, y, imgBGR):
+
+    imgHSV = cv2.cvtColor(imgBGR, cv2.COLOR_BGR2HSV)
+    H = imgHSV[y, x, 0]
+    S = imgHSV[y, x, 1]
+    V = imgHSV[y, x, 2]
+    
+    return (3.35*H/179 + 2.55*S/255 + 8.58*V/255 - 7.51)
+
+
+def get_yco(y, img):
+    return (y/img.shape[0])
+
+
+
+def get_grayness(im, x, y):
+
+    Cb = im[ y , x , 2 ]
+    Cr = im[ y , x , 1 ]
+
+    g = (Cb/255 - 0.5)**2 + (Cr/255 - 0.5)**2
+
+    return g
+
+
 
 def getPatchTexture(im, x, y, patch_size):
     
@@ -58,28 +107,6 @@ def getPatchTexture(im, x, y, patch_size):
     return texture
 
 
-def get_FD_RGB(x, y, imgBGR):
-
-    B = imgBGR[y, x, 0]
-    G = imgBGR[y, x, 1]
-    R = imgBGR[y, x, 2]
-    
-    return ((-3.77*R - 1.25*G + 12.40*B)/255 - 4.62)
-
-def get_FD_HSV(x, y, imgBGR):
-
-    imgHSV = cv2.cvtColor(imgBGR, cv2.COLOR_BGR2HSV)
-    H = imgHSV[y, x, 0]
-    S = imgHSV[y, x, 1]
-    V = imgHSV[y, x, 2]
-    
-    return (3.35*H/179 + 2.55*S/255 + 8.58*V/255 - 7.51)
-
-
-def get_yco(y, img):
-    return (y/img.shape[0])
-
-
 def patch_mean(im, x, y, patch_size):
 
     imgYCC = cv2.cvtColor(im, cv2.COLOR_BGR2YCR_CB)
@@ -115,7 +142,7 @@ def get_PSD(width, height, img):
     sum=0
     
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    m = mean(img.shape[1], img.shape[0], gray)
+    m = patch_mean(img.shape[1], img.shape[0], gray)
 
     for y in range(0, height):
         for x in range(0, width):
@@ -151,6 +178,7 @@ def get_uniformity(x, y, im, patch_size):
     u = np.sum(p**2)
 
     return u
+                
 
 def get_gradient(img, x, y):
 
@@ -180,10 +208,12 @@ def get_gradient(img, x, y):
         
         dy = abs(round(Y2) - round(Y1));
 
-    grad = dx + dy;
+    grad = (dx + dy)/255;
 
     return grad;
-                
+
+
+
 
 if __name__ == "__main__":
 
@@ -199,8 +229,7 @@ if __name__ == "__main__":
 
     for y in range(0, height):
         for x in range(0, width):
-            m=getPatchTexture(img, x, y, 10)
+            m=get_grayness(img, x, y)
             print(m)
     
     
-
