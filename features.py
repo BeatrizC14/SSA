@@ -86,15 +86,17 @@ def patch_mean(imgYCC, x, y, patch_size):
     imgWidth = imgYCC.shape[1]
     imgHeight = imgYCC.shape[0]
 
-    mean = 0
-
     #The correction in x and y is also made in get_PSD, so if you are calling patch_mean inside this function comment this part
-    # if (x < half_patch_size): x = half_patch_size
-    # if (x >= imgWidth - half_patch_size): x = imgWidth - half_patch_size - 1  
-    # if (y < half_patch_size): y = half_patch_size  
-    # if (y >= imgHeight - half_patch_size): y = imgHeight - half_patch_size - 1 
-    ### 
+    if (x < half_patch_size): x = half_patch_size
+    if (x >= imgWidth - half_patch_size): x = imgWidth - half_patch_size - 1  
+    if (y < half_patch_size): y = half_patch_size  
+    if (y >= imgHeight - half_patch_size): y = imgHeight - half_patch_size - 1 
+    ###
 
+    patch = imgYCC[y-half_patch_size:y+half_patch_size, x-half_patch_size:x+half_patch_size, 0]
+
+    '''
+    mean = 0
     dx = -half_patch_size
     while dx <= half_patch_size:
         dy = -half_patch_size
@@ -106,9 +108,9 @@ def patch_mean(imgYCC, x, y, patch_size):
             dy += 1
         dx += 1
     
-    mean /= (patch_size * patch_size)
+    mean /= (patch_size * patch_size)'''
 
-    return mean
+    return np.mean(patch)
 
 def get_PSD(imgYCC, x, y, patch_size):
 
@@ -116,14 +118,18 @@ def get_PSD(imgYCC, x, y, patch_size):
     imgWidth = imgYCC.shape[1]
     imgHeight = imgYCC.shape[0]
 
-    s = 0
-
     # x and y Correction
     if (x < half_patch_size): x = half_patch_size
     if (x >= imgWidth - half_patch_size): x = imgWidth - half_patch_size - 1  
     if (y < half_patch_size): y = half_patch_size  
     if (y >= imgHeight - half_patch_size): y = imgHeight - half_patch_size - 1 
 
+    patch = imgYCC[y-half_patch_size:y+half_patch_size, x-half_patch_size:x+half_patch_size, 0]
+    L = patch.size
+
+    '''
+    s = 0
+    mean = patch_mean(imgYCC, x, y, patch_size)
     dx = -half_patch_size
     while dx <= half_patch_size:
         dy = -half_patch_size
@@ -131,14 +137,14 @@ def get_PSD(imgYCC, x, y, patch_size):
             indx = x + dx
             indy = y + dy
             value = imgYCC[indy, indx, 0]/2
-            mean = patch_mean(imgYCC, x, y, patch_size); 
             s += (value - mean)**2
 
             dy += 1
         dx += 1
     
-    s =  math.sqrt( s/(patch_size * patch_size) )
-    return s
+    s =  math.sqrt( s/(patch_size * patch_size) )'''
+
+    return np.sqrt((1/L)*np.sum((patch - np.mean(patch))**2))
 
 
 def get_uniformity(x, y, im, patch_size):
@@ -207,11 +213,10 @@ def get_grayness(im, x, y):
 
     return g
                 
-
 if __name__ == "__main__":
 
-    #img = cv2.imread('../imag.jpg')
-    img = cv2.imread('imag.jpg')
+    img = cv2.imread('../imag.jpg')
+    #img = cv2.imread('imag.jpg')
     imgYCC = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
     height = imgYCC.shape[0]
     width = imgYCC.shape[1]
@@ -222,8 +227,11 @@ if __name__ == "__main__":
 
     for y in range(0, height):
         for x in range(0, width):
-            m=getPatchTexture(img, x, y, 10)
+            #m=getPatchTexture(img, x, y, 10)
+            #m=get_PSD(imgYCC, x, y, patch_size)
+            m=get_grayness(img, x, y)
             print(m)
+
     
     
 

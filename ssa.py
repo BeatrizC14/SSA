@@ -29,7 +29,7 @@ def getMaximumY(img):
     return max_y
 
 def segment_no_yco():
-
+    # YCV_tree_no_yco2
     imgYCC = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
     height = img.shape[0]
     width = img.shape[1]
@@ -98,7 +98,6 @@ if __name__ == "__main__":
     for filename in os.listdir(dataset_path):
         original_img = cv2.imread(os.path.join(dataset_path, filename))
         img = cv2.resize(original_img, (640, 480))
-        img_out = np.full(img.shape, 255)
         img_out = np.full(img.shape, 255)
         segment_no_yco()
         

@@ -2,4 +2,5 @@
 #dst_path = '../segmented/segmented_'
 dataset_path = '../holidays_selection/'
 #dst_path = '../segmented_holidays/segmented_'
-dst_path = '../segmented3_holidays/segmented_'
+#dst_path = '../segmented3_holidays/segmented_'
+dst_path = '../holidays_FullTreeNoYco/segmented_'
